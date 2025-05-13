@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Filter App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-left">
+            <div class="nav-brand">Face Filter App</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="filters">Filters</a>
+                <a href="#" class="nav-link" data-page="ar-vr">AR/VR</a>
+            </div>
+        </div>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+
+    <div class="container">
+        <!-- Filters Page -->
+        <div class="page" id="filters-page">
+            <div class="video-container">
+                <video id="video" width="720" height="560" autoplay muted playsinline></video>
+                <canvas id="canvas" style="display: none;"></canvas>
+                <div id="loading">Loading face detection model...</div>
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <button id="startButton" class="control-btn">
+                        <i class="fas fa-camera"></i> Start Camera
+                    </button>
+                    <button id="captureButton" class="control-btn" disabled>
+                        <i class="fas fa-camera-retro"></i> Take Photo
+                    </button>
+                    <button id="downloadButton" class="control-btn" disabled>
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+                <select id="filterSelect" class="filter-select">
+                    <option value="none">No Filter</option>
+                    <option value="sepia">Sepia</option>
+                    <option value="grayscale">Grayscale</option>
+                    <option value="vintage">Vintage</option>
+                    <option value="noir">Noir</option>
+                    <option value="blur">Blur</option>
+                    <option value="hat">Hat</option>
+                    <option value="hat-blur">Hat with Blur</option>
+                </select>
+            </div>
+            <div id="error-message"></div>
+            <div class="instructions">
+                <p>1. Wait for the face detection model to load</p>
+                <p>2. Click "Start Camera" and allow camera access</p>
+                <p>3. Select a filter from the dropdown menu</p>
+                <p>4. Click "Take Photo" to capture the image</p>
+                <p>5. Click "Download" to save the photo</p>
+            </div>
+
+            <!-- Photo Gallery Section -->
+            <div class="photo-gallery">
+                <h3>Your Captured Photos</h3>
+                <div id="gallery-container" class="gallery-grid">
+                    <!-- Photos will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- AR/VR Page -->
+        <div class="page" id="ar-vr-page" style="display: none;">
+            <div class="ar-vr-content">
+                <h2>Augmented & Virtual Reality</h2>
+                <div class="ar-vr-grid">
+                    <div class="ar-vr-card" id="ar-card">
+                        <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=500" alt="AR Technology">
+                        <h3>Augmented Reality</h3>
+                        <p>Experience the future of face filters with our AR technology. Transform your appearance in real-time with advanced facial tracking and realistic effects.</p>
+                        <button class="learn-more-btn" data-type="ar">Learn More</button>
+                    </div>
+                    <div class="ar-vr-card" id="vr-card">
+                        <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=500" alt="VR Technology">
+                        <h3>Virtual Reality</h3>
+                        <p>Step into a virtual world where you can try different looks and styles. Our VR technology provides an immersive experience for trying new appearances.</p>
+                        <button class="learn-more-btn" data-type="vr">Learn More</button>
+                    </div>
+                </div>
+
+                <!-- Detailed AR Section -->
+                <div id="ar-details" class="tech-details" style="display: none;">
+                    <div class="details-header">
+                        <h2>Augmented Reality (AR)</h2>
+                        <button class="close-btn">×</button>
+                    </div>
+                    <div class="details-content">
+                        <div class="video-container">
+                            <iframe id="ar-video" width="100%" height="400" src="https://www.youtube.com/embed/hDhzSDDwClg?enablejsapi=1" title="AR Furniture Placement" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="text-content">
+                            <h3>What is Augmented Reality?</h3>
+                            <p>Augmented Reality (AR) is a technology that overlays digital information and virtual objects onto the real world. Unlike Virtual Reality, AR enhances your current environment rather than replacing it.</p>
+                            
+                            <h3>Key Features:</h3>
+                            <ul>
+                                <li>Real-time face tracking and mapping</li>
+                                <li>Interactive 3D object placement</li>
+                                <li>Environmental understanding</li>
+                                <li>Real-world integration</li>
+                            </ul>
+
+                            <h3>Applications:</h3>
+                            <ul>
+                                <li>Face filters and effects</li>
+                                <li>Virtual try-on for fashion and makeup</li>
+                                <li>Interactive gaming experiences</li>
+                                <li>Educational tools and visualizations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed VR Section -->
+                <div id="vr-details" class="tech-details" style="display: none;">
+                    <div class="details-header">
+                        <h2>Virtual Reality (VR)</h2>
+                        <button class="close-btn">×</button>
+                    </div>
+                    <div class="details-content">
+                        <div class="video-container">
+                            <iframe id="vr-video" width="100%" height="400" src="https://www.youtube.com/embed/A1DC8Bc8BqQ?enablejsapi=1" title="Ready Player One VR Experience" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="text-content">
+                            <h3>What is Virtual Reality?</h3>
+                            <p>Virtual Reality (VR) creates a completely immersive digital environment that replaces the real world. Users can interact with and experience this virtual world through specialized equipment like VR headsets.</p>
+                            
+                            <h3>Key Features:</h3>
+                            <ul>
+                                <li>Full 360-degree immersion</li>
+                                <li>Interactive virtual environments</li>
+                                <li>Realistic 3D graphics</li>
+                                <li>Motion tracking and controllers</li>
+                            </ul>
+
+                            <h3>Applications:</h3>
+                            <ul>
+                                <li>Virtual try-on experiences</li>
+                                <li>Immersive gaming</li>
+                                <li>Virtual tours and exploration</li>
+                                <li>Training and simulation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.dataset.page;
+                
+                // Update active link
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show target page
+                pages.forEach(page => {
+                    page.style.display = page.id === `${targetPage}-page` ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'login.html';
+        });
+
+        // AR/VR Details functionality
+        const learnMoreBtns = document.querySelectorAll('.learn-more-btn');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const arDetails = document.getElementById('ar-details');
+        const vrDetails = document.getElementById('vr-details');
+        let arPlayer, vrPlayer;
+
+        // Load YouTube API
+        function loadYouTubeAPI() {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        // Initialize YouTube players
+        function onYouTubeIframeAPIReady() {
+            arPlayer = new YT.Player('ar-video', {
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+            vrPlayer = new YT.Player('vr-video', {
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Player is ready
+        }
+
+        // Load YouTube API when page loads
+        loadYouTubeAPI();
+
+        learnMoreBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.type;
+                if (type === 'ar') {
+                    arDetails.style.display = 'block';
+                    // Play AR video
+                    if (arPlayer && arPlayer.playVideo) {
+                        arPlayer.playVideo();
+                    }
+                } else if (type === 'vr') {
+                    vrDetails.style.display = 'block';
+                    // Play VR video
+                    if (vrPlayer && vrPlayer.playVideo) {
+                        vrPlayer.playVideo();
+                    }
+                }
+            });
+        });
+
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Stop videos when closing
+                if (arPlayer && arPlayer.stopVideo) {
+                    arPlayer.stopVideo();
+                }
+                if (vrPlayer && vrPlayer.stopVideo) {
+                    vrPlayer.stopVideo();
+                }
+                arDetails.style.display = 'none';
+                vrDetails.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html> 

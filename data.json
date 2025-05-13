@@ -1,0 +1,152 @@
+{
+  "users": [
+    {
+      "id": "1746853389182",
+      "username": "admin",
+      "password": "$2a$10$ZY.mVTeJSX3lTWccFmSfAen/MsbIsCNPc9W6XmTnzw7Cy.fqxVvdu",
+      "filterHistory": [
+        {
+          "filterName": "vintage",
+          "timestamp": "2025-05-10T05:04:31.751Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T05:04:36.825Z"
+        },
+        {
+          "filterName": "sepia",
+          "timestamp": "2025-05-10T05:04:39.622Z"
+        },
+        {
+          "filterName": "vintage",
+          "timestamp": "2025-05-10T05:05:21.739Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T05:06:05.122Z"
+        },
+        {
+          "filterName": "sepia",
+          "timestamp": "2025-05-10T05:06:18.921Z"
+        },
+        {
+          "filterName": "vintage",
+          "timestamp": "2025-05-10T05:06:24.694Z"
+        },
+        {
+          "filterName": "sepia",
+          "timestamp": "2025-05-10T05:50:21.590Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T05:54:27.411Z"
+        }
+      ]
+    },
+    {
+      "id": "1746857407153",
+      "username": "nandhu",
+      "password": "$2a$10$m2vqvQfnnunbwqUuOItgleeU5L5U/n4fAHWRlPtEowUstrIq/kBKK",
+      "filterHistory": []
+    },
+    {
+      "id": "1746857694487",
+      "username": "nan",
+      "password": "$2a$10$Yc4dsVgBInvluk8uhMZ0lOpxQzx0tI.JzmLzRUVkTd5g/BuHEIdZG",
+      "filterHistory": [
+        {
+          "filterName": "grayscale",
+          "timestamp": "2025-05-10T06:15:15.417Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T06:15:23.612Z"
+        },
+        {
+          "filterName": "none",
+          "timestamp": "2025-05-10T06:15:27.467Z"
+        },
+        {
+          "filterName": "sepia",
+          "timestamp": "2025-05-10T06:16:13.640Z"
+        },
+        {
+          "filterName": "vintage",
+          "timestamp": "2025-05-10T06:16:25.041Z"
+        },
+        {
+          "filterName": "grayscale",
+          "timestamp": "2025-05-10T06:16:59.757Z"
+        },
+        {
+          "filterName": "grayscale",
+          "timestamp": "2025-05-10T06:54:11.080Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T06:54:17.582Z"
+        },
+        {
+          "filterName": "sepia",
+          "timestamp": "2025-05-10T06:54:57.100Z"
+        },
+        {
+          "filterName": "vintage",
+          "timestamp": "2025-05-10T06:55:20.564Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T07:02:35.295Z"
+        },
+        {
+          "filterName": "none",
+          "timestamp": "2025-05-10T07:02:38.912Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T07:07:28.399Z"
+        },
+        {
+          "filterName": "vintage",
+          "timestamp": "2025-05-10T07:07:41.360Z"
+        },
+        {
+          "filterName": "grayscale",
+          "timestamp": "2025-05-10T07:07:47.111Z"
+        },
+        {
+          "filterName": "sepia",
+          "timestamp": "2025-05-10T07:07:55.981Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T07:08:04.335Z"
+        },
+        {
+          "filterName": "hat",
+          "timestamp": "2025-05-10T07:11:02.425Z"
+        },
+        {
+          "filterName": "blur",
+          "timestamp": "2025-05-10T07:11:14.056Z"
+        },
+        {
+          "filterName": "blur",
+          "timestamp": "2025-05-10T07:21:34.699Z"
+        },
+        {
+          "filterName": "noir",
+          "timestamp": "2025-05-10T07:21:44.507Z"
+        },
+        {
+          "filterName": "grayscale",
+          "timestamp": "2025-05-10T07:21:51.762Z"
+        },
+        {
+          "filterName": "sepia",
+          "timestamp": "2025-05-10T07:21:58.447Z"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Filter App - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Face Filter App</h1>
+                <p>Sign in to continue</p>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">Sign In</button>
+                    <button type="button" class="btn-secondary" id="registerBtn">Create Account</button>
+                </div>
+                <div class="error-message" id="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const loginForm = document.getElementById('loginForm');
+        const registerBtn = document.getElementById('registerBtn');
+        const errorMessage = document.getElementById('error-message');
+
+        // Handle form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Clear previous error
+            errorMessage.textContent = '';
+            errorMessage.style.color = '#e74c3c';
+
+            // Validate input
+            if (!username || !password) {
+                errorMessage.textContent = 'Please enter both username and password';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userId', data.userId);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'index.html';
+                } else {
+                    if (response.status === 401) {
+                        if (data.error === 'User not found') {
+                            errorMessage.textContent = 'Username not found. Please try again or create an account.';
+                        } else if (data.error === 'Invalid password') {
+                            errorMessage.textContent = 'Incorrect password. Please try again.';
+                        } else {
+                            errorMessage.textContent = 'Invalid username or password';
+                        }
+                    } else {
+                        errorMessage.textContent = data.error || 'Login failed. Please try again.';
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Connection error. Please try again.';
+            }
+        });
+
+        // Handle registration
+        registerBtn.addEventListener('click', async () => {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Clear previous error
+            errorMessage.textContent = '';
+            errorMessage.style.color = '#e74c3c';
+
+            // Validate input
+            if (!username || !password) {
+                errorMessage.textContent = 'Please enter both username and password';
+                return;
+            }
+
+            if (username.length < 3) {
+                errorMessage.textContent = 'Username must be at least 3 characters long';
+                return;
+            }
+
+            if (password.length < 6) {
+                errorMessage.textContent = 'Password must be at least 6 characters long';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    errorMessage.textContent = 'Registration successful! Please sign in.';
+                    errorMessage.style.color = '#2ecc71';
+                    // Clear the form
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                } else {
+                    errorMessage.textContent = data.error || 'Registration failed. Please try again.';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                errorMessage.textContent = 'Connection error. Please try again.';
+            }
+        });
+
+        // Handle Enter key for login
+        document.getElementById('password').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginForm.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html> 
